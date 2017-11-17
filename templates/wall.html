@@ -1,0 +1,37 @@
+<html>
+    <head>
+      <title>Books</title>
+    </head>
+    <body>
+   
+    <h1>Welcome to the wall</h1>
+    <form name="postAmessage" action=/addMessage method="post"> 
+    <h2>Post a message</h2>
+    <textarea name="postedMessage" rows="4" cols="50"></textarea>
+    <input type="submit" value="Post a message">
+    </form> 
+      {% for i in messagesList: %}
+        <p>{{i['first_name']}}, {{i['last_name']}}, {{i['created_at']}} </p>
+        <textarea name="userMsg" rows="4" cols="100" >{{i['message'] }}</textarea>
+        {% for j in commentList: %}
+            {%if i['msg_Id'] == j['message_id'] %}
+                <p>{{j['comment']}}</p>
+            {%endif%}
+        {% endfor %}
+        <form name="postAcomment" action=/addcomment method="post"> 
+            <h4>Post a comment</h4>
+            <input type="hidden" name="messageId" value= {{i["msg_Id"]}}>
+            <textarea name="postedComment" rows="2" cols="50"></textarea>
+            <input type="submit" value="Comment">
+        </form> 
+      {% endfor %}
+          {% with messages = get_flashed_messages() %}
+              {% if messages %}
+                  {% for message in messages %}
+                      <p>{{message}}</p>
+                  {% endfor %}
+              {% endif %}
+          {% endwith %}
+      </div>
+    </body>
+</html>
